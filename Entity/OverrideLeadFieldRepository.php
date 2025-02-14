@@ -62,13 +62,13 @@ class OverrideLeadFieldRepository extends LeadFieldRepository
      *
      * @return bool
      */
-    public function compareValue($lead, $field, $value, $operatorExpr)
+    public function compareValue($lead, $field, $value, $operatorExpr, ?string $fieldType = null)
     {
         // Alterations to core start.
         // Run the standard compareValue if not an extended field for better BC.
         $extendedField               = $this->getExtendedFieldConfigurations($field);
         if (!$extendedField) {
-            return parent::compareValue($lead, $field, $value, $operatorExpr);
+            return parent::compareValue($lead, $field, $value, $operatorExpr, $fieldType);
         }
         // Alterations to core end.
 

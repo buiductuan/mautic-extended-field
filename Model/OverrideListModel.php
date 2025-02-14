@@ -26,9 +26,9 @@ class OverrideListModel extends ListModel
      *
      * @return array
      */
-    public function getChoiceFields()
+    public function getChoiceFields(string $search = '')
     {
-        $choices = parent::getChoiceFields();
+        $choices = parent::getChoiceFields($search);
 
         // Shift all extended fields into the "lead" object.
         $resort = false;

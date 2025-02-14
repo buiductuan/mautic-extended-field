@@ -61,10 +61,10 @@ return [
             ],
             'mautic.form.extension.extended_field'    => [
                 'class'        => \MauticPlugin\MauticExtendedFieldBundle\Form\ExtendedFieldExtension::class,
-                'arguments'    => ['mautic.factory'],
+                'arguments'    => ['mautic.helper.core_parameters'],
                 'tag'          => 'form.type_extension',
                 'tagArguments' => [
-                    'extended_type' => 'Mautic\LeadBundle\Form\Type\FieldType',
+                    'extended_type' => \Mautic\LeadBundle\Form\Type\FieldType::class,
                 ],
             ],
             'mautic.form.extension.extended_lead'     => [

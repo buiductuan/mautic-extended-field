@@ -11,12 +11,13 @@
 
 namespace MauticPlugin\MauticExtendedFieldBundle\Form;
 
-use Mautic\CoreBundle\Factory\MauticFactory;
+// use Mautic\CoreBundle\Factory\MauticFactory;
 use Mautic\CoreBundle\Helper\CoreParametersHelper;
 use Mautic\LeadBundle\Form\Type\FieldType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
+
 
 /**
  * Class ExtendedFieldExtension.
@@ -28,10 +29,10 @@ class ExtendedFieldExtension extends AbstractTypeExtension
     /** @var CoreParametersHelper */
     protected $coreParameters;
 
-    public function __construct(MauticFactory $factory)
+    public function __construct(CoreParametersHelper $coreParametersHelper)
     {
         /* @var CoreParametersHelper coreParameters */
-        $this->coreParameters = $factory->getDispatcher()->getContainer()->get('mautic.helper.core_parameters');
+        $this->coreParameters = $coreParametersHelper;
     }
 
     /**
@@ -39,10 +40,21 @@ class ExtendedFieldExtension extends AbstractTypeExtension
      *
      * @return string The name of the type being extended
      */
-    public function getExtendedType()
+    // public function getExtendedType()
+    // {
+    //     // use FormType::class to modify (nearly) every field in the system
+    //     return FieldType::class;
+    // }
+
+    /**
+     * Returns the name of the type being extended.
+     *
+     * @return string The name of the type being extended
+     */
+    public function getExtendedTypes()
     {
         // use FormType::class to modify (nearly) every field in the system
-        return FieldType::class;
+        return [FieldType::class];
     }
 
     /**
@@ -56,7 +68,7 @@ class ExtendedFieldExtension extends AbstractTypeExtension
         $new      = !empty($options['data']) && $options['data']->getAlias() ? false : true;
 
         // change default option to "extendedField" from "lead" when plugin is enabled and config set
-        $disallowLead = $this->coreParameters->getParameter('disable_lead_table_fields', false);
+        $disallowLead = $this->coreParameters->get('disable_lead_table_fields', false);
         if ($disallowLead && $new) {
             $options['data']->setObject('extendedField');
         }
@@ -72,7 +84,7 @@ class ExtendedFieldExtension extends AbstractTypeExtension
                     'mautic.lead.extendedField'       => 'extendedField',
                     'mautic.lead.extendedFieldSecure' => 'extendedFieldSecure',
                 ],
-                'choices_as_values' => true,
+                // 'choices_as_values' => true, remove in 3.x
                 'choice_attr'       => function ($key) use ($disallowLead) {
                     // set "Contact" option disabled to true based on key or index of the choice.
                     if ('lead' === $key && $disallowLead) {
