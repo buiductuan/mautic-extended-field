@@ -17,7 +17,8 @@ use Mautic\LeadBundle\Form\Type\LeadType;
 use Mautic\LeadBundle\Model\CompanyModel;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Mautic\CoreBundle\Translation\Translator;
 
 /**
  * Class LeadTypeExtension.
@@ -28,7 +29,7 @@ class LeadTypeExtension extends AbstractTypeExtension
         getFormFields as getFormFieldsExtended;
     }
 
-    /** @var \Mautic\CoreBundle\Translation\Translator */
+    /** @var Translator */
     private $translator;
 
     /** @var MauticFactory */
@@ -40,10 +41,9 @@ class LeadTypeExtension extends AbstractTypeExtension
     /**
      * @param MauticFactory $factory
      */
-    public function __construct(MauticFactory $factory, CompanyModel $companyModel)
+    public function __construct(Translator $translator, CompanyModel $companyModel)
     {
-        $this->translator   = $factory->getTranslator();
-        $this->factory      = $factory;
+        $this->translator   = $translator;
         $this->companyModel = $companyModel;
     }
 
@@ -52,10 +52,10 @@ class LeadTypeExtension extends AbstractTypeExtension
      *
      * @return string The name of the type being extended
      */
-    public function getExtendedType()
+    public function getExtendedTypes()
     {
         // use FormType::class to modify (nearly) every field in the system
-        return LeadType::class;
+        return [LeadType::class];
     }
 
     /**
@@ -74,9 +74,9 @@ class LeadTypeExtension extends AbstractTypeExtension
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function setDefaultOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
             [

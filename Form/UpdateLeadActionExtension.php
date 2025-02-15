@@ -17,6 +17,7 @@ use Mautic\LeadBundle\Form\Type\UpdateLeadActionType;
 use MauticPlugin\MauticExtendedFieldBundle\Model\ExtendedFieldModel;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
+use Mautic\LeadBundle\Model\FieldModel;
 
 /**
  * Class UpdateLeadActionExtension.
@@ -27,15 +28,15 @@ class UpdateLeadActionExtension extends AbstractTypeExtension
         getFormFields as getFormFieldsExtended;
     }
 
-    /** @var MauticFactory */
-    private $factory;
+    /** @var FieldModel */
+    private $fieldModel;
 
     /**
-     * @param MauticFactory $factory
+     * @param FieldModel $fieldModel
      */
-    public function __construct(MauticFactory $factory)
+    public function __construct(FieldModel $fieldModel)
     {
-        $this->factory = $factory;
+        $this->fieldModel = $fieldModel;
     }
 
     /**
@@ -43,10 +44,10 @@ class UpdateLeadActionExtension extends AbstractTypeExtension
      *
      * @return string The name of the type being extended
      */
-    public function getExtendedType()
+    public function getExtendedTypes()
     {
         // use FormType::class to modify (nearly) every field in the system
-        return UpdateLeadActionType::class;
+        return [UpdateLeadActionType::class];
     }
 
     /**
@@ -61,7 +62,7 @@ class UpdateLeadActionExtension extends AbstractTypeExtension
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         /** @var ExtendedFieldModel $extendedFieldModel */
-        $extendedFieldModel =  $this->factory->getModel('lead.field');
+        $extendedFieldModel =  $this->fieldModel;
         $leadFields         = $extendedFieldModel->getEntities(
             [
                 'force' => [

@@ -62,7 +62,7 @@ class OverrideTableSchemaColumnsCache extends TableSchemaColumnsCache
                     $fq->select('f.alias')
                         ->from(MAUTIC_TABLE_PREFIX.'lead_fields', 'f')
                         ->where(
-                            $fq->expr()->orX(
+                            $fq->expr()->or(
                                 $fq->expr()->eq('f.object', $fq->expr()->literal('extendedField')),
                                 $fq->expr()->eq('f.object', $fq->expr()->literal('extendedFieldSecure'))
                             )

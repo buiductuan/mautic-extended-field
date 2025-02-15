@@ -27,9 +27,9 @@ class ListTypeExtension extends AbstractTypeExtension
      *
      * @return string The name of the type being extended
      */
-    public function getExtendedType()
+    public function getExtendedTypes()
     {
         // use FormType::class to modify (nearly) every field in the system
-        return ListType::class;
+        return [ListType::class];
     }
 }
