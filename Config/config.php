@@ -12,7 +12,7 @@
 return [
     'name'        => 'Extended Fields',
     'description' => 'Extends custom fields for scalability and HIPAA/PCI compliance.',
-    'version'     => '2.15',
+    'version'     => '4.0',
     'author'      => 'Mautic',
     'parameters'  => [
         // set default to block creation of lead table columns
@@ -53,10 +53,10 @@ return [
             // Form extensions
             'mautic.form.extension.updatelead_action' => [
                 'class'        => \MauticPlugin\MauticExtendedFieldBundle\Form\UpdateLeadActionExtension::class,
-                'arguments'    => ['mautic.factory'],
+                'arguments'    => ['mautic.lead.model.field'],
                 'tag'          => 'form.type_extension',
                 'tagArguments' => [
-                    'extended_type' => 'Mautic\LeadBundle\Form\Type\UpdateLeadActionType',
+                    'extended_type' => \Mautic\LeadBundle\Form\Type\UpdateLeadActionType::class,
                 ],
             ],
             'mautic.form.extension.extended_field'    => [
@@ -69,10 +69,10 @@ return [
             ],
             'mautic.form.extension.extended_lead'     => [
                 'class'        => \MauticPlugin\MauticExtendedFieldBundle\Form\LeadTypeExtension::class,
-                'arguments'    => ['mautic.factory', 'mautic.lead.model.company'],
+                'arguments'    => ['translator', 'mautic.lead.model.company'],
                 'tag'          => 'form.type_extension',
                 'tagArguments' => [
-                    'extended_type' => 'Mautic\LeadBundle\Form\Type\LeadType',
+                    'extended_type' => \Mautic\LeadBundle\Form\Type\LeadType::class,
                 ],
             ],
             'mautic.form.extension.extended_list'     => [
@@ -89,7 +89,7 @@ return [
                 ],
                 'tag'          => 'form.type_extension',
                 'tagArguments' => [
-                    'extended_type' => 'Mautic\LeadBundle\Form\Type\ListType',
+                    'extended_type' => \Mautic\LeadBundle\Form\Type\ListType::class,
                 ],
             ],
         ],

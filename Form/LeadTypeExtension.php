@@ -18,6 +18,7 @@ use Mautic\LeadBundle\Model\CompanyModel;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Mautic\CoreBundle\Translation\Translator;
 
 /**
  * Class LeadTypeExtension.
@@ -28,7 +29,7 @@ class LeadTypeExtension extends AbstractTypeExtension
         getFormFields as getFormFieldsExtended;
     }
 
-    /** @var \Mautic\CoreBundle\Translation\Translator */
+    /** @var Translator */
     private $translator;
 
     /** @var MauticFactory */
@@ -40,10 +41,9 @@ class LeadTypeExtension extends AbstractTypeExtension
     /**
      * @param MauticFactory $factory
      */
-    public function __construct(MauticFactory $factory, CompanyModel $companyModel)
+    public function __construct(Translator $translator, CompanyModel $companyModel)
     {
-        $this->translator   = $factory->getTranslator();
-        $this->factory      = $factory;
+        $this->translator   = $translator;
         $this->companyModel = $companyModel;
     }
 
